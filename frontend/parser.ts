@@ -3,6 +3,7 @@ import {
   BinaryExpr,
   Expr,
   Identifier,
+  NullLiteral,
   NumericLiteral,
   Program,
   Stmt,
@@ -75,8 +76,20 @@ export default class Parser {
 
   // Handle expressions
   private parse_expr(): Expr {
-    return this.parse_additive_expr();
+    return this.parse_additive_expr ();
   }
+
+  // Orders of presidence
+  // Assigment expresion
+  // Member expresion
+  // Function call
+  // Logical expresion
+  // Additive expresion
+  // Multiplicative expresion
+  // Unary expresion
+  // Comprasion expresion
+  // Primary expresion
+
 
   // Handle Addition & Subtraction Operations
   private parse_additive_expr(): Expr {
@@ -131,6 +144,10 @@ export default class Parser {
       case TokenType.Identifier:
         return { kind: "Identifier", symbol: this.eat().value } as Identifier;
 
+
+      case TokenType.Null:
+        this.eat();
+        return {kind: "NullLiteral" , value : "null"} as NullLiteral;
       // Constants and Numeric Constants
       case TokenType.Number:
         return {
